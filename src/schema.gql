@@ -1,0 +1,161 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+input CreateLoadTestInput {
+  body: JSON
+  concurrentUsers: Int!
+  description: String
+  durationSeconds: Int!
+  headers: JSON
+  method: String!
+  name: String!
+  requestsPerSecond: Int!
+  targetUrl: String!
+  totalRequests: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type LoadTest {
+  body: JSON
+  completedAt: DateTime
+  concurrentUsers: Int!
+  createdAt: DateTime!
+  description: String
+  durationSeconds: Int!
+  headers: JSON
+  id: ID!
+  method: String!
+  name: String!
+  requestsPerSecond: Int!
+  results: [TestResult!]!
+  startedAt: DateTime
+  status: String!
+  targetUrl: String!
+  totalRequests: Int!
+  updatedAt: DateTime!
+  user: User!
+  userId: String!
+}
+
+type LoadTestStatistics {
+  completedTests: Int!
+  failedTests: Int!
+  runningTests: Int!
+  successRate: Float!
+  totalTests: Int!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Metric {
+  activeUsers: Int!
+  avgResponseTime: Float!
+  createdAt: DateTime!
+  errorCount: Int!
+  errorMessage: String
+  id: ID!
+  loadTest: LoadTest!
+  loadTestId: String!
+  requestCount: Int!
+  statusCode: Int
+  successCount: Int!
+  timestamp: DateTime!
+}
+
+type Mutation {
+  createLoadTest(input: CreateLoadTestInput!): LoadTest!
+  deleteLoadTest(id: String!): Boolean!
+  enableCloud(apiKey: String!): User!
+  login(input: LoginInput!): AuthPayload!
+  register(input: RegisterInput!): AuthPayload!
+  startLoadTest(id: String!): LoadTest!
+  stopLoadTest(id: String!): LoadTest!
+  updateLoadTest(id: String!, input: UpdateLoadTestInput!): LoadTest!
+  updatePlan(plan: String!): User!
+}
+
+type Query {
+  aggregatedMetrics(loadTestId: String!): JSON
+  loadTest(id: String!): LoadTest!
+  loadTestStatistics: LoadTestStatistics!
+  loadTests: [LoadTest!]!
+  me: User!
+  metrics(loadTestId: String!): [Metric!]!
+  metricsInTimeRange(endTime: DateTime!, loadTestId: String!, startTime: DateTime!): [Metric!]!
+  testResults(testId: String!): [TestResult!]!
+  user(id: String!): User!
+}
+
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type Subscription {
+  loadTestUpdated(userId: String!): LoadTest!
+}
+
+type TestResult {
+  averageResponseTime: Float!
+  createdAt: DateTime!
+  errorDistribution: JSON
+  errorRate: Float!
+  failedRequests: Int!
+  id: ID!
+  loadTest: LoadTest!
+  loadTestId: String!
+  maxResponseTime: Float!
+  minResponseTime: Float!
+  p50ResponseTime: Float!
+  p95ResponseTime: Float!
+  p99ResponseTime: Float!
+  requestsPerSecond: Float!
+  statusCodeDistribution: JSON
+  successfulRequests: Int!
+  timeSeriesData: JSON
+  totalRequests: Int!
+  updatedAt: DateTime!
+}
+
+input UpdateLoadTestInput {
+  body: JSON
+  concurrentUsers: Int
+  description: String
+  durationSeconds: Int
+  headers: JSON
+  method: String
+  name: String
+  requestsPerSecond: Int
+  targetUrl: String
+  totalRequests: Int
+}
+
+type User {
+  cloudApiKey: String
+  cloudEnabled: Boolean!
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  name: String!
+  plan: String!
+  updatedAt: DateTime!
+}
